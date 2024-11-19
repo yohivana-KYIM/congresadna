@@ -1,5 +1,6 @@
 <template>
   <Separator />
+  <br />
   <div class="flex items-center justify-center bg-site-bg p-6">
     <div class="w-full max-w-5xl bg-white rounded-3xl shadow-lg overflow-hidden flex flex-col md:flex-row">
       <div class="w-full md:w-1/2 p-6">

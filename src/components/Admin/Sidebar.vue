@@ -125,6 +125,21 @@ const menuItems = ref([
     path: "/Admin/villages",
     icon: "fas fa-tree",
   },
+  {
+    name: "Vidéos",
+    path: "/Admin/videos",
+    icon: "fas fa-video",
+  },
+  {
+    name: "Photothèque",
+    path: "/Admin/phototheque",
+    icon: "fas fa-images",
+  },
+  {
+    name: "Activités",
+    path: "/Admin/activites",
+    icon: "fas fa-tasks",
+  },
 ]);
 
 const toggleSidebar = () => {

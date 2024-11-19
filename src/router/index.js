@@ -7,13 +7,15 @@ import ListeVillages from "@/components/frontend/liste-villages/ListeVillages.vu
 import Inscription from "@/components/frontend/inscription/Inscription.vue";
 import Paiement from "@/components/frontend/paiement/Paiement.vue";
 import Sponsor from "@/components/frontend/sponsor/Sponsor.vue";
-import Introduction from "@/components/frontend/sponsor/introduction.vue"; // Import de Introduction
-
+import Introduction from "@/components/frontend/sponsor/introduction.vue"; 
 import Contact from "@/components/frontend/contact/Contact.vue";
+
+// Imported once, for both routes
+import VideoList from "@/components/frontend/videotheque/VideoList.vue"; 
 import Admin from "@/views/Admin/dashboard.vue";
 import payslist from "@/views/Admin/pays/payslist.vue";
 import VilleList from "@/views/Admin/villes/VilleList.vue";
-import NotFound from "@/views/NotFound.vue"; // Import de la vue NotFound
+import NotFound from "@/views/NotFound.vue"; 
 import { useAuthStore } from "../stores/auth";
 
 const routes = [
@@ -29,6 +31,10 @@ const routes = [
   {
     path: "/liste-villages",
     component: ListeVillages,
+  },
+  {
+    path: "/videotheque",
+    component: VideoList,
   },
   {
     path: "/hynme",
@@ -74,9 +80,14 @@ const routes = [
         component: payslist,
       },
       {
+        path: "videos",
+        name: "VideoList",
+        component: VideoList, // Admin route
+      },
+      {
         path: "villes",
         name: "VilleList",
-        component: VilleList,
+        component: VilleList, 
       },
     ],
     meta: { requiresAuth: true },

@@ -1,4 +1,6 @@
 <template>
+   <Separator />
+   <br />
   <div class="min-h-screen p-6 bg-gray-50">
     <!-- En-tête de la page -->
     <div
@@ -74,48 +76,66 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import { ref, onMounted } from "vue";
 import EasyDataTable from "vue3-easy-data-table";
 import "vue3-easy-data-table/dist/style.css";
 import { MagnifyingGlassIcon, EyeIcon } from "@heroicons/vue/24/outline";
 import VillageService from "@/services/VillageService"; // Assurez-vous que le chemin est correct
 import { useToast } from "vue-toastification";
+import Separator from "@/components/frontend/separator/Separator.vue";
 
 const toast = useToast();
-const loading = ref(false);
-const villages = ref([]);
-const searchQuery = ref("");
-const headers = [
-  { text: "ID", value: "id", sortable: true },
-  { text: "Nom du Village", value: "nom", sortable: true },
-  { text: "Actions", value: "actions", width: 100, sortable: false },
-];
 
-// Charger les villages
-const loadVillages = async () => {
-  try {
-    loading.value = true;
-    const response = await VillageService.getAllVillages(searchQuery.value);
-    villages.value = response;
-  } catch (error) {
-    toast.error("Une erreur est survenue lors du chargement des villages");
-  } finally {
-    loading.value = false;
-  }
+export default {
+  components: {
+    Separator,
+  },
+  setup() {
+    const loading = ref(false);
+    const villages = ref([]);
+    const searchQuery = ref("");
+    
+    const headers = [
+      { text: "ID", value: "id", sortable: true },
+      { text: "Nom du Village", value: "nom", sortable: true },
+      { text: "Actions", value: "actions", width: 100, sortable: false },
+    ];
+
+    // Charger les villages
+    const loadVillages = async () => {
+      try {
+        loading.value = true;
+        const response = await VillageService.getAllVillages(searchQuery.value);
+        villages.value = response;
+      } catch (error) {
+        toast.error("Une erreur est survenue lors du chargement des villages");
+      } finally {
+        loading.value = false;
+      }
+    };
+
+    // Gérer la recherche avec debounce
+    let searchTimeout;
+    const handleSearch = () => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        loadVillages();
+      }, 300);
+    };
+
+    // Charger les villages au montage du composant
+    onMounted(loadVillages);
+
+    return {
+      loading,
+      villages,
+      searchQuery,
+      headers,
+      handleSearch,
+    };
+  },
 };
-
-// Gérer la recherche avec debounce
-let searchTimeout;
-const handleSearch = () => {
-  clearTimeout(searchTimeout);
-  searchTimeout = setTimeout(() => {
-    loadVillages();
-  }, 300);
-};
-
-// Charger les villages au montage du composant
-onMounted(loadVillages);
 </script>
 
 <style scoped>
